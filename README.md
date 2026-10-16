@@ -92,3 +92,18 @@ http://localhost:5000
 3. **Describe**: (Optional) Note what spilled and how long it has been there.
 4. **Click "Analyze Photo with AI"**: View the identified stain, uncertainty rating, household supplies needed, numbered steps with interactive checkboxes, and safety precautions.
 5. **Quick Common Stains**: Explore any of the 4 instant preset categories anytime.
+
+
+## Mission 03 — Adaptive Troubleshooting & Failed-Solution Recovery
+
+The Mission 03 panel tracks user-reported attempts in browser local storage, asks for the outcome and optional context, and creates a revised plan that explicitly avoids repeating the failed action. It includes conservative hazard checks and directs potentially dangerous cases to professional/emergency help instead of escalating to stronger chemicals or risky repairs.
+
+### Run on Windows
+1. Extract the ZIP file.
+2. Open the extracted `fix-ai` folder in VS Code.
+3. Open Terminal → New Terminal.
+4. Run `npm install` in the project root.
+5. Run `npm start`.
+6. Open `http://localhost:5000` in Chrome.
+
+The adaptive recovery panel works without an AI API key. Existing AI analysis features may require your own API key configured locally in `backend/.env`; never share that file publicly. This panel gives general guidance only and is not a substitute for professional advice.

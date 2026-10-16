@@ -459,6 +459,48 @@
 
       </section>
 
+
+      <!-- Mission 03: Adaptive troubleshooting and failed-solution recovery -->
+      <section class="mission03-section" id="adaptiveRecovery" aria-labelledby="mission03Title">
+        <div class="mission03-heading">
+          <span class="mission03-kicker">MISSION 03</span>
+          <h2 id="mission03Title">Adaptive Troubleshooting &amp; Recovery</h2>
+          <p>Tell us what you already tried. EverydayFix will avoid repeating failed steps and adjust the next plan.</p>
+        </div>
+        <form id="recoveryForm" class="recovery-form">
+          <div class="recovery-grid">
+            <label>What problem are you solving?
+              <select id="recoveryProblem" required>
+                <option value="">Choose a problem</option>
+                <option>Clothing stain</option><option>Kitchen cleaning</option>
+                <option>Bathroom cleaning</option><option>Odour</option>
+                <option>Appliance or household issue</option><option>Other</option>
+              </select>
+            </label>
+            <label>What did you try already? <span>(required)</span>
+              <textarea id="recoveryAttempt" required rows="3" placeholder="Example: Blotted with cold water for 5 minutes..."></textarea>
+            </label>
+            <label>What happened after trying it?
+              <select id="recoveryOutcome" required>
+                <option value="">Choose outcome</option>
+                <option value="no-change">No change</option><option value="worse">It got worse</option>
+                <option value="partial">Improved a little</option><option value="new">Something unexpected happened</option>
+              </select>
+            </label>
+            <label>Extra details (optional)
+              <textarea id="recoveryDetails" rows="2" placeholder="Material, product used, age of stain, or other details"></textarea>
+            </label>
+          </div>
+          <button class="btn btn-primary" type="submit" id="recoverySubmit">Create revised plan</button>
+        </form>
+        <div id="recoverySafety" class="recovery-alert hidden" role="alert"></div>
+        <div id="recoveryResult" class="recovery-result hidden" aria-live="polite"></div>
+        <div class="recovery-history-wrap">
+          <div class="recovery-history-head"><h3>Attempt history</h3><button type="button" id="clearRecoveryHistory" class="recovery-clear">Clear history</button></div>
+          <ol id="recoveryHistory" class="recovery-history"><li class="recovery-empty">Your attempts will appear here.</li></ol>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -471,5 +513,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="mission03.js"></script>
 </body>
 </html>

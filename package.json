@@ -1,0 +1,22 @@
+{
+  "name": "stainsolver-workspace",
+  "version": "1.3.0",
+  "description": "EverydayFix AI / StainSolver — Multimodal AI Photo Stain Detector & Problem Solver",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "backend": "npm --prefix backend start",
+    "frontend:dev": "npm --prefix frontend dev",
+    "frontend:build": "npm --prefix frontend build",
+    "test:health": "node -e \"fetch('http://localhost:5000/api/health').then(r => r.json()).then(d => console.log('HEALTH_CHECK:', d)).catch(e => console.error(e))\""
+  },
+  "keywords": [
+    "stainsolver",
+    "ai-stain-detector",
+    "gemini-vision",
+    "openai-vision",
+    "cleaning-assistant"
+  ],
+  "author": "EverydayFix AI",
+  "license": "MIT"
+}

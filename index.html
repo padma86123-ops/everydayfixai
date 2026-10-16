@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EverydayFix AI — Your Everyday Problem Solver & AI Stain Detector</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navigation / Header -->
+  <header class="header">
+    <div class="container header-container">
+      <div class="logo">
+        <span class="logo-icon">🌿</span>
+        <span class="logo-text">Everyday<strong>Fix</strong> <span class="badge-ai">AI</span></span>
+      </div>
+      <div class="header-right">
+        <nav class="nav-links">
+          <a href="#aiSection" class="nav-link active">📷 Photo Stain Detector</a>
+          <a href="#presetSection" class="nav-link">⚡ Quick Guides</a>
+        </nav>
+        <div class="server-status-pill" id="serverStatusPill" title="Server Connection Status">
+          <span class="status-dot checking"></span>
+          <span class="status-text" id="serverStatusText">Checking Server...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <span class="pill-badge" id="heroProviderBadge">✨ Powered by Vision AI (Google Gemini &amp; OpenAI)</span>
+      <h1 class="hero-title">Accidents happen.<br><span class="highlight">Fix them safely with AI.</span></h1>
+      <p class="hero-desc">
+        Snap or upload a photo of any mystery stain for instant AI visual detection, 
+        or explore our quick-action guides for common household spills.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#aiSection" class="btn btn-primary btn-lg">📷 Analyze a Stain Photo</a>
+        <a href="#presetSection" class="btn btn-secondary btn-lg">⚡ Quick Common Stains</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- ================================================================= -->
+      <!-- SECTION 1: AI PHOTO STAIN DETECTOR -->
+      <!-- ================================================================= -->
+      <section class="ai-section" id="aiSection">
+        <div class="section-heading">
+          <span class="section-tag">Multimodal Vision AI</span>
+          <h2>AI-Powered Photo Stain Detector</h2>
+          <p>Upload a clear photo of your stain, select the surface, and let Vision AI diagnose it safely</p>
+        </div>
+
+        <!-- AI Upload & Input Form Card -->
+        <div class="ai-card" id="aiFormCard">
+          <form id="stainUploadForm" novalidate>
+
+            <div class="form-grid">
+
+              <!-- Left Column: Image Upload Area -->
+              <div class="upload-column">
+                <label class="form-label">1. Upload or Capture Stain Photo <span class="req">*</span></label>
+
+                <!-- Dropzone / File & Camera Picker -->
+                <div class="dropzone" id="dropzone">
+                  <input 
+                    type="file" 
+                    id="imageInput" 
+                    name="image" 
+                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" 
+                    class="file-input-hidden"
+                  >
+                  <input 
+                    type="file" 
+                    id="cameraInput" 
+                    accept="image/*" 
+                    capture="environment" 
+                    class="file-input-hidden"
+                  >
+                  <div class="dropzone-prompt" id="dropzonePrompt">
+                    <span class="dropzone-icon">📸</span>
+                    <h4>Drag &amp; drop your stain photo here</h4>
+                    <p>or select from your device:</p>
+                    <div class="dropzone-buttons">
+                      <button type="button" class="btn btn-secondary btn-sm" id="browsePhotoBtn">
+                        <span class="btn-icon">📁</span> Browse File
+                      </button>
+                      <button type="button" class="btn btn-secondary btn-sm" id="takePhotoBtn">
+                        <span class="btn-icon">📷</span> Take Photo
+                      </button>
+                    </div>
+                    <div class="dropzone-extra">
+                      <button type="button" class="btn-text-link" id="loadSampleImageBtn">🧪 Or try with a sample stain image</button>
+                    </div>
+                    <span class="file-types-hint">Supports JPG, PNG, WEBP (Max 10 MB)</span>
+                  </div>
+
+                  <!-- Upload Preview Box -->
+                  <div class="preview-box hidden" id="previewBox">
+                    <img id="imagePreview" src="" alt="Stain preview" class="preview-image">
+                    <div class="preview-meta">
+                      <span class="preview-name" id="previewFileName">stain.jpg</span>
+                      <span class="preview-size" id="previewFileSize">1.2 MB</span>
+                    </div>
+                    <div class="preview-actions">
+                      <button type="button" class="btn-remove-photo" id="removePhotoBtn" title="Remove or change photo">
+                        ✕ Remove
+                      </button>
+                      <button type="button" class="btn-change-photo" id="changePhotoBtn" title="Take another photo">
+                        📷 Retake
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Material & Context Inputs -->
+              <div class="details-column">
+
+                <!-- Material Selector -->
+                <div class="form-group">
+                  <label for="materialSelect" class="form-label">2. Target Material / Surface <span class="req">*</span></label>
+                  <select id="materialSelect" name="material" class="form-select" required>
+                    <option value="" disabled selected>Select affected material...</option>
+                    <option value="cotton">Cotton &amp; Linen (T-shirts, shirts, jeans, bedsheets, towels)</option>
+                    <option value="delicates">Delicates &amp; Synthetics (Silk, wool, polyester, nylon, rayon)</option>
+                    <option value="wood">Hardwood &amp; Furniture (Finished wood, tables, flooring)</option>
+                    <option value="tile">Tile &amp; Grout (Ceramic, porcelain, bathroom/kitchen surfaces)</option>
+                    <option value="stone">Natural Stone (Marble, granite, limestone, quartz)</option>
+                    <option value="leather">Leather &amp; Suede (Jackets, couches, shoes, car seats)</option>
+                    <option value="carpet">Carpet &amp; Upholstery (Rugs, sofa cushions, car upholstery)</option>
+                    <option value="other">Other / Multi-surface</option>
+                  </select>
+                  <span class="field-hint">Crucial: delicate fabrics and stone require special safe chemistry!</span>
+                </div>
+
+                <!-- Stain Age Selector -->
+                <div class="form-group">
+                  <label for="stainAgeSelect" class="form-label">3. How long has it been there?</label>
+                  <select id="stainAgeSelect" name="stainAge" class="form-select">
+                    <option value="Just happened (less than 1 hour ago)" selected>Fresh / Just happened (&lt; 1 hour ago)</option>
+                    <option value="A few hours ago (1 to 6 hours)">A few hours ago (1–6 hours)</option>
+                    <option value="1 to 2 days ago">1–2 days ago</option>
+                    <option value="Set-in / Older (> 2 days)">Set-in or dried (&gt; 2 days ago)</option>
+                    <option value="Unknown">Not sure / Unknown</option>
+                  </select>
+                </div>
+
+                <!-- Stain Description Input with Quick Chips -->
+                <div class="form-group">
+                  <label for="stainDescription" class="form-label">4. What caused it? (Optional description)</label>
+                  <div class="quick-stain-chips">
+                    <span class="quick-chip-label">Quick select:</span>
+                    <button type="button" class="stain-chip" data-stain="Coffee spill on fabric">☕ Coffee</button>
+                    <button type="button" class="stain-chip" data-stain="Red wine spill">🍷 Red Wine</button>
+                    <button type="button" class="stain-chip" data-stain="Cooking oil or grease">🍳 Oil/Grease</button>
+                    <button type="button" class="stain-chip" data-stain="Ballpoint pen ink mark">🖋️ Ink</button>
+                    <button type="button" class="stain-chip" data-stain="Tomato sauce or curry food spill">🍝 Food Sauce</button>
+                    <button type="button" class="stain-chip" data-stain="Outdoor mud and dirt">👟 Mud</button>
+                    <button type="button" class="stain-chip" data-stain="Hardened candle wax">🕯️ Wax</button>
+                    <button type="button" class="stain-chip" data-stain="Blood stain">🩸 Blood</button>
+                  </div>
+                  <textarea 
+                    id="stainDescription" 
+                    name="description" 
+                    rows="3" 
+                    class="form-textarea" 
+                    placeholder="e.g., Red wine dropped during dinner, oily salad dressing splash, ballpoint ink mark, makeup smudge..."
+                  ></textarea>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Action Row -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-submit" id="analyzeBtn">
+                <span class="btn-icon">✨</span> Analyze Photo with AI
+              </button>
+            </div>
+
+          </form>
+
+          <!-- Loading State Indicator -->
+          <div class="loading-state hidden" id="aiLoadingState" aria-live="assertive">
+            <div class="loading-spinner"></div>
+            <h3 id="loadingTitle">Analyzing photo with AI…</h3>
+            <p id="loadingSubtext">Inspecting visual color pigments, texture, and surface interaction</p>
+            <div class="loading-steps-pills">
+              <span class="load-pill active">1. Vision Scan</span>
+              <span class="load-pill">2. Stain Chemistry</span>
+              <span class="load-pill">3. Material Safety Check</span>
+            </div>
+          </div>
+
+          <!-- Error Alert Container -->
+          <div class="error-alert hidden" id="aiErrorAlert" role="alert">
+            <div class="error-alert-header">
+              <span class="error-icon">⚠️</span>
+              <h4 id="errorTitle">Action Required</h4>
+            </div>
+            <p id="errorMessageText">An error occurred while analyzing the stain.</p>
+            <div class="error-help" id="errorHelpBox">
+              <!-- Dynamically populated troubleshooting help -->
+            </div>
+            <button type="button" class="btn btn-outline btn-sm" id="dismissErrorBtn">Dismiss</button>
+          </div>
+
+        </div>
+
+        <!-- AI Analysis Result Card (Populated by Gemini Response) -->
+        <article class="ai-result-card hidden" id="aiResultCard" aria-live="polite">
+          
+          <!-- Result Card Header -->
+          <div class="ai-result-header">
+            <div class="ai-badge-group">
+              <span class="badge-gemini" id="aiProviderBadge">✨ Vision AI Analysis</span>
+              <span class="badge-confidence" id="aiConfidenceBadge">Confidence: High (~85%)</span>
+            </div>
+            <div class="result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="aiPrintBtn" title="Print instructions or save as PDF">
+                <span class="btn-icon">🖨️</span> Print / Save PDF
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="aiCopyBtn" title="Copy instructions to clipboard">
+                <span class="btn-icon">📋</span> Copy AI Steps
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" id="aiResetBtn" title="Analyze another photo">
+                <span class="btn-icon">🔄</span> Analyze Another Photo
+              </button>
+            </div>
+          </div>
+
+          <!-- Explicit Analysis Mode Banner (Live AI vs Offline Demo) -->
+          <div class="analysis-mode-banner hidden" id="analysisModeBanner">
+            <span class="mode-icon" id="modeBannerIcon">🟢</span>
+            <div class="mode-content">
+              <strong id="modeBannerTitle">Live Multimodal AI Analysis</strong>
+              <p id="modeBannerDesc">Diagnosed by cloud multimodal vision model.</p>
+            </div>
+          </div>
+
+          <!-- Headline & Stain Identification -->
+          <div class="ai-result-summary">
+            <div class="ai-thumbnail-wrapper">
+              <img id="resultThumbnail" src="" alt="Analyzed stain thumbnail" class="result-thumbnail">
+            </div>
+            <div class="ai-summary-text">
+              <span class="detected-label">Detected Stain Type:</span>
+              <h2 id="aiStainType" class="stain-headline">Red Wine / Tannin Stain</h2>
+              <div class="result-tags">
+                <span class="tag-pill" id="aiTargetSurface">Surface: Cotton</span>
+                <span class="tag-pill" id="aiReportedAge">Age: Fresh (&lt; 1 hr)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Uncertainty & Visual Rationale Box -->
+          <div class="uncertainty-box">
+            <div class="uncertainty-header">
+              <span class="u-icon">🔍</span>
+              <h4>Visual Analysis &amp; Uncertainty Rating</h4>
+            </div>
+            <p id="aiUncertaintyNotes">
+              Visual markers indicate purple-red pigment spread with feathered absorption edges consistent with tannin-rich liquids.
+            </p>
+          </div>
+
+          <!-- Surface-Specific Care Advice -->
+          <div class="material-notes-box" id="materialNotesBox">
+            <span class="m-icon">🛡️</span>
+            <div>
+              <strong>Material Advice:</strong>
+              <p id="aiMaterialNotes">Cleaning protocol tailored specifically for cotton fabrics to preserve weave structure.</p>
+            </div>
+          </div>
+
+          <!-- Household Supplies Needed -->
+          <div class="supplies-section">
+            <h4>Household Supplies Needed</h4>
+            <div class="supplies-pills" id="aiSuppliesContainer">
+              <!-- Dynamically populated tags -->
+            </div>
+          </div>
+
+          <!-- Safety Precautions & Warnings Box (Prominently displayed before cleaning steps) -->
+          <div class="safety-box" id="aiSafetyBox">
+            <div class="safety-header">
+              <span class="safety-icon">⚠️</span>
+              <h4>Crucial Safety Precautions &amp; Fabric Hazards</h4>
+            </div>
+            <ul class="warnings-list" id="aiWarningsList">
+              <!-- Dynamically populated safety points -->
+            </ul>
+          </div>
+
+          <!-- Numbered Cleaning Steps (Interactive Checklist) -->
+          <div class="steps-section">
+            <div class="steps-section-header">
+              <h4>Numbered Cleaning Steps</h4>
+              <span class="step-hint">Check off each step as you complete it:</span>
+              <span class="step-progress" id="stepProgress">0 of 0 completed</span>
+            </div>
+            <ol class="steps-list" id="aiStepsList">
+              <!-- Dynamically populated checklist items -->
+            </ol>
+          </div>
+
+          <!-- Card Bottom Action -->
+          <div class="ai-result-footer">
+            <p class="footer-tip">💡 Keep clothing out of the dryer until the stain is 100% gone.</p>
+            <button type="button" class="btn btn-primary" id="aiBottomResetBtn">
+              ← Analyze Another Photo
+            </button>
+          </div>
+
+        </article>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- SECTION 2: QUICK COMMON STAINS (PRESERVED 4 CATEGORIES) -->
+      <!-- ================================================================= -->
+      <section class="selector-section" id="presetSection">
+        <div class="section-heading">
+          <span class="section-tag">Instant Solutions</span>
+          <h2>Quick Common Stains</h2>
+          <p>Click any preset card below for fast, reliable cleaning instructions</p>
+        </div>
+
+        <div class="cards-grid" id="problemCardsGrid">
+          <!-- Card 1: Drink Spills -->
+          <button class="problem-card" data-problem="drink-spills" type="button" aria-pressed="false">
+            <div class="card-icon">☕</div>
+            <div class="card-info">
+              <h3>Drink spills on clothing</h3>
+              <p>Coffee, tea, wine, sodas, and colorful juices</p>
+            </div>
+            <span class="card-action">View Solution &rarr;</span>
+          </button>
+
+          <!-- Card 2: Oil Stains -->
+          <button class="problem-card" data-problem="oil-stains" type="button" aria-pressed="false">
+            <div class="card-icon">🍳</div>
+            <div class="card-info">
+              <h3>Oil stains on surfaces</h3>
+              <p>Cooking oil, butter, grease on counters or stoves</p>
+            </div>
+            <span class="card-action">View Solution &rarr;</span>
+          </button>
+
+          <!-- Card 3: Candle Wax -->
+          <button class="problem-card" data-problem="candle-wax" type="button" aria-pressed="false">
+            <div class="card-icon">🕯️</div>
+            <div class="card-info">
+              <h3>Candle wax on tables</h3>
+              <p>Hardened wax residue on wood, glass, or stone</p>
+            </div>
+            <span class="card-action">View Solution &rarr;</span>
+          </button>
+
+          <!-- Card 4: Mud on Shoes -->
+          <button class="problem-card" data-problem="mud-shoes" type="button" aria-pressed="false">
+            <div class="card-icon">👟</div>
+            <div class="card-info">
+              <h3>Mud on shoes</h3>
+              <p>Wet or caked-on dirt on sneakers, boots, or leather</p>
+            </div>
+            <span class="card-action">View Solution &rarr;</span>
+          </button>
+        </div>
+
+        <!-- Preset Solution Output Display Area -->
+        <div class="preset-solution-container" id="presetSolutionContainer" aria-live="polite">
+          <!-- Default Empty State -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">👆</div>
+            <h3>Select a preset stain above to view instructions</h3>
+            <p>Choose any of the 4 common stains to get step-by-step guides and surface safety rules.</p>
+          </div>
+
+          <!-- Dynamic Preset Solution Card (populated by JS) -->
+          <article class="solution-card hidden" id="solutionCard">
+            <!-- Header with Title & Reset Button -->
+            <div class="solution-header">
+              <div class="solution-title-group">
+                <span class="solution-icon-large" id="solutionIcon"></span>
+                <div>
+                  <span class="category-tag" id="solutionCategory">Everyday Fix Solution</span>
+                  <h2 id="solutionTitle">Solution Title</h2>
+                </div>
+              </div>
+              <div class="solution-actions">
+                <button class="btn btn-secondary btn-sm" id="copyBtn" type="button" title="Copy instructions to clipboard">
+                  <span class="btn-icon">📋</span> Copy Steps
+                </button>
+                <button class="btn btn-outline btn-sm" id="resetBtn" type="button" title="Reset and pick another stain">
+                  <span class="btn-icon">🔄</span> Reset
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Metadata Bar -->
+            <div class="meta-bar">
+              <div class="meta-item">
+                <span class="meta-label">Est. Time:</span>
+                <span class="meta-value" id="metaTime">10–15 mins</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Difficulty:</span>
+                <span class="meta-value" id="metaDifficulty">Beginner-friendly</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">What You Need:</span>
+                <span class="meta-value" id="metaSupplies">Household supplies</span>
+              </div>
+            </div>
+
+            <!-- Safety Warnings Container (Prominently displayed before instructions) -->
+            <div class="safety-box">
+              <div class="safety-header">
+                <span class="safety-icon">⚠️</span>
+                <h4>Important Safety Warnings &amp; Precautions</h4>
+              </div>
+              <ul class="warnings-list" id="warningsList">
+                <!-- Dynamically rendered -->
+              </ul>
+            </div>
+
+            <!-- Step-by-Step Instructions -->
+            <div class="instructions-container">
+              <div class="instructions-header">
+                <h3>Step-by-Step Instructions</h3>
+                <span class="step-hint">Click checkboxes as you complete each step:</span>
+              </div>
+              <ol class="steps-list" id="stepsList">
+                <!-- Dynamically rendered -->
+              </ol>
+            </div>
+
+            <!-- Card Bottom Actions -->
+            <div class="solution-footer">
+              <p class="footer-tip">💡 Need to fix another item? Tap reset or select another card above.</p>
+              <button class="btn btn-primary" id="bottomResetBtn" type="button">
+                ← Choose Another Problem
+              </button>
+            </div>
+          </article>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p><strong>EverydayFix AI</strong> &copy; 2026. Made with care for safer, cleaner homes.</p>
+      <p class="disclaimer">Always spot-test cleaning solutions on an inconspicuous area first. AI recommendations are based on visual analysis and best-practice household chemistry.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
